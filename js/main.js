@@ -16,6 +16,15 @@ function keyup(e) {
   keystate[e.code] = false;
 }
 
+function vowel(s) {
+  return s == 'A' || s == 'E' || s == 'I' || s == 'O' || s == 'U' || s == 'Y'
+}
+function consonant(s) {
+  if (vowel(s)) return false;
+  if (s == ".") return false;
+  return true;
+}
+
 var tick = 0;
 function step() {
   window.requestAnimationFrame(step);
@@ -25,7 +34,26 @@ function step() {
 
   const c = videoscii[i + j * COLS]
 
+  const l = videoscii[(i + COLS-1) % COLS + j * COLS].textContent
+  const r = videoscii[(i + 1) % COLS + j * COLS].textContent
+  const u = videoscii[i + ((j + ROWS-1) % ROWS) * COLS].textContent
+  const d = videoscii[i + ((j + 1) % ROWS) * COLS].textContent
+
+  const vowels = vowel(l) + vowel(r) + vowel(u) + vowel(d)
+  const consonants = consonant(l) + consonant(r) + consonant(u) + consonant(d)
+
   c.textContent = String.fromCharCode(Math.random() * 26 + 65);
+
+  if (vowels > 2) {
+    while (vowel(c.textContent)) {
+      c.textContent = String.fromCharCode(Math.random() * 26 + 65);
+    }
+  }
+  else if (consonants > 2) {
+    while (consonant(c.textContent)) {
+      c.textContent = String.fromCharCode(Math.random() * 26 + 65);
+    }
+  }
 
   c.style.backgroundColor = "RGB(0,0," + (Math.random() * 255 >> 0) + ")"
 
@@ -57,14 +85,14 @@ function resize() {
 
   canvas.style.width = (16 * k) + "px";
   canvas.style.height = (9 * k) + "px";
-  canvas.style.fontSize = (k / COLS ) + "em";
+  canvas.style.fontSize = (k / COLS) + "em";
 }
 
 function load() {
 
   resize();
   refocus();
-  
+
   const canvas = document.getElementById("gamecanvas");
 
   let c = "";
@@ -95,8 +123,8 @@ function load() {
   window.addEventListener("resize", resize);
   window.addEventListener("keydown", keydown);
   window.addEventListener("keyup", keyup);
- 
-  window.requestAnimationFrame(step);  
+
+  window.requestAnimationFrame(step);
 }
 
 export { load };
