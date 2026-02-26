@@ -1,0 +1,27 @@
+body,html
+{
+    background-color: black;
+    margin: 0;
+ 
+    touch-action: none; 
+}
+
+#gamecanvas
+{
+    margin: auto;
+    display: grid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    background-color: #404040;
+    color: white;
+    text-align: center;
+    font-family: "Cascadia Mono", monospace;
+}
+
+#gamecanvas:focus {
+    outline: none;
+}
