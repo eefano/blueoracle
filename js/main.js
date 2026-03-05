@@ -1,6 +1,57 @@
 
-const COLS = 80;
-const ROWS = 37;
+const COLS = 85;
+const ROWS = 39;
+
+var weights = {
+  'A': 	8.2 ,
+  'B': 	1.5 ,
+  'C': 	2.8 ,
+  'D': 	4.3 ,
+  'E': 	12.7 ,
+  'F': 	2.2 ,
+  'G': 	2.0 ,
+  'H':	6.1 ,
+  'I': 	7.0 ,
+  'J': 	0.16 ,
+  'K': 	0.77 ,
+  'L': 	4.0 ,
+  'M': 	2.4 ,
+  'N': 	6.7 ,
+  'O': 	7.5 ,
+  'P': 	1.9 ,
+  'Q': 	0.12 ,
+  'R': 	6.0 ,
+  'S': 	6.3 ,
+  'T': 	9.1 ,
+  'U': 	2.8 ,
+  'V': 	0.98 ,
+  'W': 	2.4 ,
+  'X': 	0.15 ,
+  'Y': 	2.0 ,
+  'Z': 	0.074 ,
+}
+var total
+
+function gimmeletter()
+{
+  if (total === undefined)
+  {
+    total = 0.0;
+    for (const [key, value] of Object.entries(weights)) {
+      total += value;
+    }
+  }
+
+  const dice = Math.random() * total;
+  let partial = 0.0;
+
+  for (const [key, value] of Object.entries(weights)) {
+    partial += value;
+    if (dice <= partial) return key;
+  }
+
+}
+
 
 var videoscii = [];
 
@@ -42,7 +93,7 @@ function step() {
   const vowels = vowel(l) + vowel(r) + vowel(u) + vowel(d)
   const consonants = consonant(l) + consonant(r) + consonant(u) + consonant(d)
 
-  c.textContent = String.fromCharCode(Math.random() * 26 + 65);
+  c.textContent = gimmeletter()  // String.fromCharCode(Math.random() * 26 + 65);
 
   if (vowels > 2) {
     while (vowel(c.textContent)) {
@@ -99,12 +150,12 @@ function load() {
   let r = "";
 
   for (let j = 0; j < ROWS; j++) {
-    r = r + "1.215em "
+    r = r + "1.225em "
 
     for (let i = 0; i < COLS; i++) {
       if (j == 0) c = c + "1em "
 
-      const elem = document.createElement("div");
+      const elem = document.createElement("span");
       elem.setAttribute("id", i + "," + j);
 
       const text = document.createTextNode(".");
